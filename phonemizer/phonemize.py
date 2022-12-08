@@ -39,6 +39,34 @@ from phonemizer.utils import list2str, str2list
 Backend = Literal['espeak', 'espeak-mbrola', 'festival', 'segments']
 
 
+def initialize_phonemizer(
+            # text,
+    language: str = 'en-us',
+    backend: Backend = 'espeak',
+    # separator: Optional[Separator] = default_separator,
+    # strip: bool = False,
+    # prepend_text: bool = False,
+    # preserve_empty_lines: bool = False,
+    preserve_punctuation: bool = True,
+    punctuation_marks: Union[str, Pattern] = Punctuation.default_marks(),
+    with_stress: bool = True,
+    tie: Union[bool, str] = False,
+    language_switch: LanguageSwitch = 'keep-flags',
+    words_mismatch: WordMismatch = 'ignore',
+    # njobs: int = 1,
+    logger: Logger = get_logger()
+    ):
+    return BACKENDS[backend](
+            language,
+            punctuation_marks=punctuation_marks,
+            preserve_punctuation=preserve_punctuation,
+            with_stress=with_stress,
+            tie=tie,
+            language_switch=language_switch,
+            words_mismatch=words_mismatch,
+            logger=logger)
+
+
 def phonemize(  # pylint: disable=too-many-arguments
         text,
         language: str = 'en-us',
