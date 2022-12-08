@@ -69,6 +69,7 @@ def initialize_phonemizer(
 
 def phonemize(  # pylint: disable=too-many-arguments
         text,
+        phonemizer = None,
         language: str = 'en-us',
         backend: Backend = 'espeak',
         separator: Optional[Separator] = default_separator,
