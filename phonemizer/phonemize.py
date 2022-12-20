@@ -230,27 +230,28 @@ def phonemize(  # pylint: disable=too-many-arguments
     if backend == 'espeak-mbrola' and separator.word:
         logger.warning('espeak-mbrola backend cannot preserve word separation')
 
-    # initialize the phonemization backend
-    if backend == 'espeak':
-        phonemizer = BACKENDS[backend](
-            language,
-            punctuation_marks=punctuation_marks,
-            preserve_punctuation=preserve_punctuation,
-            with_stress=with_stress,
-            tie=tie,
-            language_switch=language_switch,
-            words_mismatch=words_mismatch,
-            logger=logger)
-    elif backend == 'espeak-mbrola':
-        phonemizer = BACKENDS[backend](
-            language,
-            logger=logger)
-    else:  # festival or segments
-        phonemizer = BACKENDS[backend](
-            language,
-            punctuation_marks=punctuation_marks,
-            preserve_punctuation=preserve_punctuation,
-            logger=logger)
+    # initialize the phonemization backend if not pre-initialized
+    if backend is None:
+        if backend == 'espeak':
+            phonemizer = BACKENDS[backend](
+                language,
+                punctuation_marks=punctuation_marks,
+                preserve_punctuation=preserve_punctuation,
+                with_stress=with_stress,
+                tie=tie,
+                language_switch=language_switch,
+                words_mismatch=words_mismatch,
+                logger=logger)
+        elif backend == 'espeak-mbrola':
+            phonemizer = BACKENDS[backend](
+                language,
+                logger=logger)
+        else:  # festival or segments
+            phonemizer = BACKENDS[backend](
+                language,
+                punctuation_marks=punctuation_marks,
+                preserve_punctuation=preserve_punctuation,
+                logger=logger)
 
     # do the phonemization
     return _phonemize(phonemizer, text, separator, strip, njobs, prepend_text, preserve_empty_lines)
